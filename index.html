@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>浸水推定図（GeoJSON）</title>
+    <title>防災科研 浸水推定図（GeoJSON）</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.js'></script>
@@ -83,12 +83,12 @@
             container: 'map',
             style: './std.json',
             // style: 'https://tile2.openstreetmap.jp/styles/osm-bright/style.json',
-            zoom: 12.53,
+            zoom: 14.54,
             minZoom: 1,
             maxZoom: 23,
             pitch: 60,
-            bearing: 49.6,
-            center: [130.55921, 33.33684],
+            bearing: 0,
+            center: [140.14177, 39.71258],
             hash: true,
             attributionControl: false
         });
@@ -159,7 +159,7 @@
                 minzoom: 2,
                 maxzoom: 18,
                 paint: {
-                    'raster-opacity': 0.5
+                    'raster-opacity': 0.3
                 }
             });
 
@@ -238,6 +238,7 @@
             });
             */
 
+            /*
             // 2023年7月10日の九州地方での大雨 推定浸水域データ
             map.addSource("20230710-floodarea", {
                 type: "geojson",
@@ -249,6 +250,58 @@
                 id: '20230710-floodarea-fill',
                 type: 'fill',
                 source: '20230710-floodarea',
+                paint: {
+                    // 浸水深で色分け
+                    'fill-color': [
+                        'match',
+                        ['get', '浸水深'],
+                        '0.5m未満', 'rgba(136, 185, 248, 1)',
+                        '0.5m以上1m未満', 'rgba(44, 133, 248, 1)',
+                        '1m以上2m未満', 'rgba(44, 117, 227, 1)',
+                        '2m以上', 'rgba(44, 104, 177, 1)',
+                        'rgba(0, 0, 0, 1)'
+                    ],
+                    'fill-opacity': 0.8,
+                }
+            });
+            */
+
+            // 2023年7月15日の東北での大雨 推定浸水域データ
+            map.addSource("20230715-Akita-City-floodarea", {
+                type: "geojson",
+                data: "./Akita_City_shp_floodarea.geojson",
+                attribution: '<a href="https://mizu.bosai.go.jp/key/20230715">防災科研 「2023年7月15日の東北での大雨 推定浸水域データ」</a>'
+            });
+
+            map.addSource("20230715-Akita-City2-floodarea", {
+                type: "geojson",
+                data: "./Akita_City2_shp_floodarea.geojson",
+                attribution: '<a href="https://mizu.bosai.go.jp/key/20230715">防災科研 「2023年7月15日の東北での大雨 推定浸水域データ」</a>'
+            });
+
+            map.addLayer({
+                id: '20230715-Akita-City-floodarea-fill',
+                type: 'fill',
+                source: '20230715-Akita-City-floodarea',
+                paint: {
+                    // 浸水深で色分け
+                    'fill-color': [
+                        'match',
+                        ['get', '浸水深'],
+                        '0.5m未満', 'rgba(136, 185, 248, 1)',
+                        '0.5m以上1m未満', 'rgba(44, 133, 248, 1)',
+                        '1m以上2m未満', 'rgba(44, 117, 227, 1)',
+                        '2m以上', 'rgba(44, 104, 177, 1)',
+                        'rgba(0, 0, 0, 1)'
+                    ],
+                    'fill-opacity': 0.8,
+                }
+            });
+
+            map.addLayer({
+                id: '20230715-Akita-City2-floodarea-fill',
+                type: 'fill',
+                source: '20230715-Akita-City2-floodarea',
                 paint: {
                     // 浸水深で色分け
                     'fill-color': [
@@ -287,7 +340,7 @@
                 "paint": {
                     // "fill-extrusion-color": "rgb(0,100,150)",
                     "fill-extrusion-color": "rgb(242,234,226)",
-                    "fill-extrusion-opacity": 0.8,
+                    "fill-extrusion-opacity": 0.5,
                     "fill-extrusion-height": 10
                 }
             });
@@ -305,7 +358,7 @@
                 "paint": {
                     // "fill-extrusion-color": "rgb(0,100,150)",
                     "fill-extrusion-color": "rgb(242,234,226)",
-                    "fill-extrusion-opacity": 0.8,
+                    "fill-extrusion-opacity": 0.5,
                     "fill-extrusion-height": 100
                 }
             });
@@ -358,7 +411,7 @@
                 "paint": {
                     // "fill-extrusion-color": "rgb(0,100,150)",
                     "fill-extrusion-color": "rgb(242,234,226)",
-                    "fill-extrusion-opacity": 0.8,
+                    "fill-extrusion-opacity": 0.5,
                     "fill-extrusion-height": 10
                 }
             });
@@ -375,7 +428,7 @@
                 "filter": ["all", ["==", "ftCode", 3102], ["==", "$type", "Polygon"]],
                 "paint": {
                     "fill-extrusion-color": "rgb(150,200,255)",
-                    "fill-extrusion-opacity": 0.8,
+                    "fill-extrusion-opacity": 0.5,
                     "fill-extrusion-height": 40
                 }
             });
@@ -392,7 +445,7 @@
                 "filter": ["all", ["==", "ftCode", 3103], ["==", "$type", "Polygon"]],
                 "paint": {
                     "fill-extrusion-color": "rgb(0,255,255)",
-                    "fill-extrusion-opacity": 0.8,
+                    "fill-extrusion-opacity": 0.5,
                     "fill-extrusion-height": 100
                 }
             });
