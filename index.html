@@ -4,11 +4,9 @@
     <title>防災科研 浸水推定図（GeoJSON）</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.js'></script>
-    <link href='https://unpkg.com/maplibre-gl@3.0.1/dist/maplibre-gl.css' rel='stylesheet' />
-    <!--<script src='maplibre-gl-gsi-terrain.js'></script>-->
+    <script src='https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.js'></script>
+    <link href='https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.css' rel='stylesheet' />
     <script type="module" src="maplibre-gl-gsi-terrain-fast-png.js"></script>
-    <!--<script src="https://unpkg.com/pmtiles@2.7.0/dist/index.js"></script>-->
     <style>
         body {
             margin: 0;
@@ -84,12 +82,12 @@
             container: 'map',
             style: './std.json',
             // style: 'https://tile2.openstreetmap.jp/styles/osm-bright/style.json',
-            zoom: 14.54,
+            zoom: 12.31,
             minZoom: 1,
             maxZoom: 23,
             pitch: 60,
             bearing: 0,
-            center: [140.14177, 39.71258],
+            center: [140.30537, 35.47099],
             hash: true,
             attributionControl: false
         });
@@ -267,6 +265,7 @@
             });
             */
 
+            /*
             // 2023年7月15日の東北での大雨 推定浸水域データ
             map.addSource("20230715-Akita-City-floodarea", {
                 type: "geojson",
@@ -303,6 +302,33 @@
                 id: '20230715-Akita-City2-floodarea-fill',
                 type: 'fill',
                 source: '20230715-Akita-City2-floodarea',
+                paint: {
+                    // 浸水深で色分け
+                    'fill-color': [
+                        'match',
+                        ['get', '浸水深'],
+                        '0.5m未満', 'rgba(136, 185, 248, 1)',
+                        '0.5m以上1m未満', 'rgba(44, 133, 248, 1)',
+                        '1m以上2m未満', 'rgba(44, 117, 227, 1)',
+                        '2m以上', 'rgba(44, 104, 177, 1)',
+                        'rgba(0, 0, 0, 1)'
+                    ],
+                    'fill-opacity': 0.8,
+                }
+            });
+            */
+
+            // 2023年9月8日の令和5年台風第13号による大雨 推定浸水域データ
+            map.addSource("20230908-Chiba-Mizuhodai-Mobara-floodarea", {
+                type: "geojson",
+                data: "./Chiba_Mizuhodai_Mobara_08Sep2023_floodarea.geojson",
+                attribution: '<a href="https://mizu.bosai.go.jp/key/2023-TY13">防災科研 推定浸水域データ</a>'
+            });
+
+            map.addLayer({
+                id: '20230908-Chiba-Mizuhodai-Mobara-floodarea-fill',
+                type: 'fill',
+                source: '20230908-Chiba-Mizuhodai-Mobara-floodarea',
                 paint: {
                     // 浸水深で色分け
                     'fill-color': [
